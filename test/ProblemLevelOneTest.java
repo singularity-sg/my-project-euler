@@ -97,12 +97,19 @@ public class ProblemLevelOneTest {
 				for(int j=0;j<cell.length;j++) {
 					gridInt[row][j] = Integer.valueOf(cell[j]);
 				}
+			} else {
+				break;
 			}
 			
 			row++;
 		}
 		
-		assertEquals(0, unit.problem11(gridInt));
+		assertEquals(70600674, unit.problem11(gridInt));
+	}
+	
+	@Test
+	public void testProblem12() {
+		assertEquals(0, unit.problem12());
 	}
 	
 	@Test
@@ -147,5 +154,10 @@ public class ProblemLevelOneTest {
 		maxPrdt = unit.getMaxProduct(new int[] {0,3}, gridInt, 2);
 		
 		assertEquals(45 ,maxPrdt);
+		
+		maxPrdt = unit.getMaxProduct(new int[] {3,2}, gridInt, 2);
+		
+		assertEquals(16 ,maxPrdt);
+		
 	}
 }
