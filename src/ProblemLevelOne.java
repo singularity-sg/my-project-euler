@@ -1,6 +1,6 @@
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProblemLevelOne {
 
@@ -402,24 +402,38 @@ public class ProblemLevelOne {
 		
 		int triangleNumber = 1;
 		
-		Map<Integer, Integer> numDivisorCount = new HashMap<>();
-		
 		for(int i=2;i>0;i++) {
+			Set<Integer> divisors = new HashSet<>();
+
 			triangleNumber += i;
 			
-			int divisorCnt = 0;
-			for(int j=1;j <= triangleNumber && divisorCnt < 502; j++) {
-				if(triangleNumber % j == 0) {
-					divisorCnt++;
-				}
-			}
+			divisors = getFactors(triangleNumber, divisors);
 			
-			if(divisorCnt > 300) {
+			if(divisors.size() > 500) {
 				break;
 			}
 		}
 		
 		return triangleNumber;
+	}
+	
+	protected Set<Integer> getFactors(int number, Set<Integer> factors) {
+		int sqrt = Double.valueOf(Math.sqrt(number)).intValue();
+		
+		factors.add(1);
+		
+		for(int j=2; j <= sqrt; j++) {
+			if(number % j == 0) {
+				int quotient = number / j;
+				factors.add(j);
+				factors.add(quotient);
+				getFactors(quotient, factors);
+			}
+		}
+		
+		factors.add(number);
+		
+		return factors;
 	}
 
 	protected long getMaxProduct(int[] cur, int[][] gridInt, int wordlength) {
@@ -519,4 +533,139 @@ public class ProblemLevelOne {
 
 		return maxPrdt;
 	}
+
+	public LargeNumber problem13(String[] numbers) throws Exception {
+		
+		LargeNumber sum = new LargeNumber("0");
+		
+		for(int i=0;i<numbers.length;i++) {
+			sum = sum.add(new LargeNumber(numbers[i]));
+		}
+		
+		return sum;
+	}
+	
+	/**
+	 * The following iterative sequence is defined for the set of positive integers:
+	 * 
+	 * n → n/2 (n is even)
+	 * n → 3n + 1 (n is odd)
+	 * 
+	 * Using the rule above and starting with 13, we generate the following sequence:
+	 * 13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+	 * 
+	 * It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+	 * 
+	 * Which starting number, under one million, produces the longest chain?
+	 * 
+	 * NOTE: Once the chain starts the terms are allowed to go above one million.
+	 * @return
+	 */
+	public int problem14() {
+		
+	}
+	
+	public static class LargeNumber {
+		
+		int[] number;
+		
+		public LargeNumber() {
+			this.number = new int[1];
+		}
+		
+		public LargeNumber(String number) {
+			this.number = new int[number.length()];
+			
+			for(int i=0;i<number.length();i++) {
+				this.number[i] = Character.getNumericValue(number.charAt(i));
+			}
+		}
+		
+		public int length() {
+			return this.number.length;
+		}
+		
+		public int getIndex(int i) throws Exception {
+			if(i >= 0 && i < number.length) {
+				return number[i];
+			} else {
+				throw new Exception("ArrayOutOfBounds!");
+			}
+		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if(other == null || !(other instanceof LargeNumber)) return false;
+			
+			return this.toString().equals(other.toString());
+		}
+		
+		@Override
+		public int hashCode() {
+			return this.toString().hashCode();
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder numStr = new StringBuilder();
+			for(int i=0;i<number.length;i++) {
+				numStr.append(String.valueOf(number[i]));
+			}
+			return numStr.toString();
+		}
+		
+		public LargeNumber add(LargeNumber other) throws Exception {
+			
+			int otherLength = other.length();
+			int myLength = this.length();
+			int[] addedNumber = null;
+			
+			if(otherLength > myLength) {
+				addedNumber = new int[otherLength+1];
+			} else {
+				addedNumber = new int[myLength+1];
+			}
+			
+			int carryOver = 0;
+			for(int i=myLength-1,j=otherLength-1,k=addedNumber.length-1;i>=0 || j>=0;i--,j--,k--) {
+				
+				int numOne = 0;
+				if(j >= 0) {
+					numOne = other.getIndex(j);
+				}
+				
+				int numTwo = 0;
+				if(i >= 0) {
+					numTwo = this.getIndex(i);
+				}
+				
+				int sum = numOne + numTwo + carryOver;
+				
+				if(sum > 9) {
+					addedNumber[k] = sum - 10;
+					carryOver = 1;
+				} else {
+					addedNumber[k] = sum;
+					carryOver = 0;
+				}
+			}
+			
+			if(carryOver == 1) {
+				addedNumber[0] = 1;
+			}
+			
+			StringBuilder largeNoStr = new StringBuilder(); 
+			for(int i=0;i<addedNumber.length;i++) {
+				if(i!=0 || addedNumber[i] > 0) {
+					largeNoStr.append(addedNumber[i]);
+				}
+			}
+			
+			LargeNumber myAddedNumber = new LargeNumber(largeNoStr.toString());
+			
+			return myAddedNumber;
+		}
+		
+	}
+	
 }
