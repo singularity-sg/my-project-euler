@@ -231,6 +231,11 @@ public class ProblemLevelOneTest {
 	}
 	
 	@Test
+	public void testProblem14() {
+		assertEquals(0, unit.problem14());
+	}
+	
+	@Test
 	public void testPalindrome() {
 		assertTrue(unit.isPalindrome(9));
 		assertTrue(unit.isPalindrome(909));

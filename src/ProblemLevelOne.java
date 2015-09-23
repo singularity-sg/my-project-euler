@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ProblemLevelOne {
@@ -563,6 +565,46 @@ public class ProblemLevelOne {
 	 */
 	public int problem14() {
 		
+		int longestChain = 0;
+		int lcn = 0;
+		
+		Map<Integer, Integer> memoize = new HashMap<>();
+		
+		for(int i=2;i<1000000;i++) {
+			long num = i;
+			int cnt = 0;
+			
+			while(num != 1) {
+				if(memoize.containsKey(num)) {
+					cnt += memoize.get(num);
+					break;
+				} else {
+					if(num % 2 == 0) {
+						num = halfEven(num);
+					} else {
+						num = tripleOdd(num);
+					}
+					cnt++;
+				}
+			}
+			
+			memoize.put(i, cnt);
+			
+			if(longestChain < cnt) {
+				longestChain = cnt;
+				lcn = i;
+			}
+		}
+		
+		return lcn;
+	}
+	
+	private long halfEven(long number) {
+		return number / 2;
+	}
+	
+	private long tripleOdd(long number) {
+		return (number * 3) + 1;
 	}
 	
 	public static class LargeNumber {
