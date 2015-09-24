@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -597,6 +598,153 @@ public class ProblemLevelOne {
 		}
 		
 		return lcn;
+	}
+	
+	
+	/**
+	 * Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+	 * How many such routes are there through a 20×20 grid?
+	 * @param number
+	 * @return
+	 */
+	public BigInteger problem15(long n) {
+		BigInteger numerator = factorial(new BigInteger(String.valueOf(2 * n)));
+		BigInteger denominator = factorial(new BigInteger(String.valueOf(n))).multiply(factorial(new BigInteger(String.valueOf(n))));
+		
+		return numerator.divide(denominator);
+	}
+	
+	
+	/**
+	 * 2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+	 * What is the sum of the digits of the number 2^1000?
+	 * @param number
+	 * @return
+	 */
+	public int problem16() {
+		BigInteger number = new BigInteger("2").pow(1000);
+		
+		String numberStr = String.valueOf(number);
+		int sum = 0;
+		
+		for(int i=0;i<numberStr.length();i++) {
+			sum += Character.getNumericValue(numberStr.charAt(i));
+		}
+		
+		return sum;
+	}
+	
+	
+	/**
+	 * If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+	 * If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+	 * NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters 
+	 * and 115 (one hundred and fifteen) contains 20 letters. The use of "and" when writing out numbers is in compliance with British usage.
+	 * @param number
+	 * @return
+	 */
+	public int problem17() {
+		
+		int length = 0;
+		
+		for (int i=1;i<=1000;i++) {
+			String word = numberToWords(i);
+			length += word.replaceAll("[ -]", "").length();
+		}
+		
+
+		return length;
+	}
+	
+	
+	protected String numberToWords(int number) {
+		
+		StringBuilder word = new StringBuilder();
+		
+		int thousands = number / 1000;
+		if(thousands > 0) {
+			word.append(dictionary(thousands)).append(" ").append(dictionary(1000));
+			
+			if(number - (thousands * 100) > 0) {
+				word.append(" ");
+			}
+		}
+		
+		int hundredsNo = number - (thousands * 1000);
+		int hundreds = hundredsNo / 100;
+		if(hundreds > 0) {
+			word.append(dictionary(hundreds)).append(" ").append(dictionary(100));
+			
+			if(hundredsNo - (hundreds * 100) > 0) {
+				word.append(" and ");
+			}
+		}
+		
+		int tensNo = hundredsNo - (hundreds * 100);
+		
+		if(tensNo > 20) {
+			int tens = tensNo / 10;
+			if(tens > 0) {
+				word.append(dictionary(tens * 10));
+				if(tensNo - (tens * 10) > 0) {
+					word.append("-");
+				}
+			}
+			int ones = tensNo - (tens * 10);
+			if(ones > 0) {
+				word.append(dictionary(ones));
+			}
+		} else {
+			word.append(dictionary(tensNo));
+		}
+		
+		return word.toString();
+	}
+
+	private String dictionary(int number) {
+		
+		switch(number) {
+			case 1 : return "one";
+			case 2 : return "two";
+			case 3 : return "three";
+			case 4 : return "four";
+			case 5 : return "five";
+			case 6 : return "six";
+			case 7 : return "seven";
+			case 8 : return "eight";
+			case 9 : return "nine";
+			case 10 : return "ten";
+			case 11 : return "eleven";
+			case 12 : return "twelve";
+			case 13 : return "thirteen";
+			case 14 : return "fourteen";
+			case 15 : return "fifteen";
+			case 16 : return "sixteen";
+			case 17 : return "seventeen";
+			case 18 : return "eighteen";
+			case 19 : return "nineteen";
+			case 20 : return "twenty";
+			case 30 : return "thirty";
+			case 40 : return "forty";
+			case 50 : return "fifty";
+			case 60 : return "sixty";
+			case 70 : return "seventy";
+			case 80 : return "eighty";
+			case 90 : return "ninety";
+			case 100 : return "hundred";
+			case 1000 : return "thousand";
+		}
+		
+		return "";
+	}
+	
+	private BigInteger factorial(BigInteger number) {
+		BigInteger answer = number;
+		for(BigInteger i=number.subtract(new BigInteger("1")); i.compareTo(new BigInteger("0")) > 0; i=i.subtract(new BigInteger("1"))) {
+			answer = answer.multiply(i);
+		}
+		
+		return answer;
 	}
 	
 	private long halfEven(long number) {

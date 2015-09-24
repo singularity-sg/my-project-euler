@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -236,6 +237,29 @@ public class ProblemLevelOneTest {
 	}
 	
 	@Test
+	public void testProblem15() {
+		assertEquals(137846528820l, unit.problem15(20).longValue());
+	}
+	
+	@Test
+	public void testProblem16() {
+		assertEquals(1366, unit.problem16());
+	}
+	
+	@Test
+	public void testProblem17() {
+		assertEquals(21124, unit.problem17());
+	}
+	
+	@Test
+	public void numberToWords() {
+		assertEquals("one hundred and two", unit.numberToWords(102));
+		assertEquals("ninety nine", unit.numberToWords(99));
+		assertEquals("eight", unit.numberToWords(8));
+		assertEquals("nine hundred and ninety eight", unit.numberToWords(998));
+	}
+	
+	@Test
 	public void testPalindrome() {
 		assertTrue(unit.isPalindrome(9));
 		assertTrue(unit.isPalindrome(909));
@@ -289,7 +313,7 @@ public class ProblemLevelOneTest {
 		
 		Set<Integer> factors = new HashSet<>();
 		
-		assertEquals(5, unit.getFactors(15, factors));
+		assertEquals(new HashSet<Integer>(Arrays.asList(1,3,5,15)), unit.getFactors(15, factors));
 		
 	}
 	
