@@ -252,6 +252,7 @@ public class ProblemLevelOneTest {
 	}
 	
 	@Test
+<<<<<<< HEAD
 	public void testProblem18() {
 		int[][] pyramid = new int[15][15];
 		
@@ -273,10 +274,14 @@ public class ProblemLevelOneTest {
 		
 		int answer = unit.problem18(pyramid);
 	}
+
+	public void testProblem19() {
+		assertEquals(171, unit.problem19());
+	}
 	
 	@Test
-	public void test19() {
-		unit.problem19();
+	public void testProblem20() throws Exception {
+		assertEquals(397, unit.problem20(100));
 	}
 	
 	@Test
