@@ -815,6 +815,10 @@ public class ProblemLevelOne {
 			this.number = new int[1];
 		}
 		
+		public LargeNumber(int length) {
+			this.number = new int[length];
+		}
+		
 		public LargeNumber(String number) {
 			this.number = new int[number.length()];
 			
@@ -845,6 +849,10 @@ public class ProblemLevelOne {
 		@Override
 		public int hashCode() {
 			return this.toString().hashCode();
+		}
+		
+		public void setIdx(int idx, int digit) {
+			number[idx] = digit;
 		}
 
 		@Override
@@ -908,6 +916,76 @@ public class ProblemLevelOne {
 			return myAddedNumber;
 		}
 		
+		public LargeNumber multiply(LargeNumber other) throws Exception {
+			LargeNumber shorterLength = other.length() > this.length() ? this : other;
+			LargeNumber longerLength = other.length() <= this.length() ? this : other;
+			
+			LargeNumber[] sumProduct = new LargeNumber[shorterLength.length()];
+			
+			for(int i=shorterLength.length()-1, i2=0;i >= 0; i--,i2++) {
+
+				int carryOver = 0;
+				int product = 0;
+
+				sumProduct[i2] = new LargeNumber(longerLength.length() + i2 + 1);
+				int sumProductIdx = sumProduct[i2].length()-1 - i2;
+				
+				for(int j=longerLength.length()-1; j >= 0; j--) {
+					
+					product = shorterLength.getIndex(i) * longerLength.getIndex(j);
+					product += carryOver;
+					
+					int digit = product % 10;
+					
+					if(product > 9) {
+						carryOver = Math.floorDiv(product, 10);
+					} else {
+						carryOver = 0;
+					}
+					
+					sumProduct[i2].setIdx(sumProductIdx--, digit);
+					
+				}
+				
+			}
+			
+			LargeNumber finalProduct = sumProduct[0];
+			
+			for(int i=1;i<sumProduct.length;i++) {
+				finalProduct = finalProduct.add(sumProduct[i]);
+			}
+			
+			return finalProduct;
+		}
+		
+	}
+
+	/**
+	 * n! means n × (n − 1) × ... × 3 × 2 × 1
+
+		For example, 10! = 10 × 9 × ... × 3 × 2 × 1 = 3628800,
+		and the sum of the digits in the number 10! is 3 + 6 + 2 + 8 + 8 + 0 + 0 = 27.
+		
+		Find the sum of the digits in the number 100!
+	 * @return
+	 */
+	public int problem20(int factorial) throws Exception {
+		
+		LargeNumber ln;
+		LargeNumber prdt = new LargeNumber(String.valueOf(factorial));
+		
+		for(int i = factorial-1; i >= 1; i--) {
+			ln = new LargeNumber(String.valueOf(i));
+			prdt = prdt.multiply(ln);
+		}
+		
+		int sum = 0;
+		
+		for(int i=0;i<prdt.length();i++) {
+			sum += prdt.getIndex(i);
+		}
+		
+		return sum;
 	}
 
 	
