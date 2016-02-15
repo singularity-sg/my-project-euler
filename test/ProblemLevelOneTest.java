@@ -252,6 +252,11 @@ public class ProblemLevelOneTest {
 	}
 	
 	@Test
+	public void testProblem19() {
+		assertEquals(171, unit.problem19());
+	}
+	
+	@Test
 	public void numberToWords() {
 		assertEquals("one hundred and two", unit.numberToWords(102));
 		assertEquals("ninety nine", unit.numberToWords(99));

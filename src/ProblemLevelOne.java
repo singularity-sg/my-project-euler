@@ -602,8 +602,8 @@ public class ProblemLevelOne {
 	
 	
 	/**
-	 * Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
-	 * How many such routes are there through a 20×20 grid?
+	 * Starting in the top left corner of a 2ï¿½2 grid, and only being able to move to the right and down, there are exactly 6 routes to the bottom right corner.
+	 * How many such routes are there through a 20ï¿½20 grid?
 	 * @param number
 	 * @return
 	 */
@@ -654,6 +654,58 @@ public class ProblemLevelOne {
 		
 
 		return length;
+	}
+	
+	
+	/**
+	 * You are given the following information, but you may prefer to do some research for yourself.
+
+		1 Jan 1900 was a Monday.
+		Thirty days has September,
+		April, June and November.
+		All the rest have thirty-one,
+		Saving February alone,
+		Which has twenty-eight, rain or shine.
+		And on leap years, twenty-nine.
+		A leap year occurs on any year evenly divisible by 4, but not on a century unless it is divisible by 400.
+		How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
+	 * @return
+	 */
+	public int problem19() {
+		
+		int[] months = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+		
+		int offset = 5; // 1 Jan 1901 = Tues, so need to offset by 5 to get the first Sunday of the year
+		
+		int sundayOnTheFirstDay = 0;
+		
+		for(int i=1901; i<2001; i++) {
+			
+			if((i%4 == 0 && i%100 != 0) || (i%100 == 0 && i%400 == 0)) {
+				months[1] = 29;
+			} else {
+				months[1] = 28;
+			}
+			
+			for(int j=0; j<months.length;j++) {
+				
+				int firstSunday = 1 + offset;
+				int k = firstSunday;
+				
+				for(k=firstSunday; (k+7)<=months[j]; k+=7) {
+					
+					if(k == 1) {
+						sundayOnTheFirstDay++;
+					}
+					
+				}
+				
+				offset = (7 - (months[j] - k)) - 1;
+			}
+		}
+		
+		return sundayOnTheFirstDay;
+		
 	}
 	
 	
@@ -857,5 +909,6 @@ public class ProblemLevelOne {
 		}
 		
 	}
+
 	
 }
