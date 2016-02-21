@@ -252,7 +252,6 @@ public class ProblemLevelOneTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
 	public void testProblem18() {
 		int[][] pyramid = new int[15][15];
 		
@@ -287,9 +286,9 @@ public class ProblemLevelOneTest {
 	@Test
 	public void numberToWords() {
 		assertEquals("one hundred and two", unit.numberToWords(102));
-		assertEquals("ninety nine", unit.numberToWords(99));
+		assertEquals("ninety-nine", unit.numberToWords(99));
 		assertEquals("eight", unit.numberToWords(8));
-		assertEquals("nine hundred and ninety eight", unit.numberToWords(998));
+		assertEquals("nine hundred and ninety-eight", unit.numberToWords(998));
 	}
 	
 	@Test
